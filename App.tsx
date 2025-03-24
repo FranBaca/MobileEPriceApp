@@ -1,20 +1,21 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useEffect } from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { Stack, RootStackParamList } from "./navigation/StackNavigator";
+import { createStackNavigator } from "@react-navigation/stack";
+import SearchScreen from "./screens/SearchScreen";
+import { AuthProvider } from "./Context/AuthContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+const StackNavigator = createStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+      <AuthProvider>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="SearchScreen" component={SearchScreen} options={{ title: "Buscar Productos" }} />
+      </Stack.Navigator>
+    </NavigationContainer>
+      </AuthProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
