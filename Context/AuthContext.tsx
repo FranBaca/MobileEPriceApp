@@ -4,15 +4,13 @@ import ENV from "../env";
 
 const CLIENT_ID = ENV.ML_CLIENT_ID;
 const CLIENT_SECRET = ENV.ML_CLIENT_SECRET;
-const REDIRECT_URI = ENV.ML_REDIRECT_URI;
-const API_BASE_URL = "http://192.168.100.78:5000";
+const API_BASE_URL = ENV.API_URL
 
 interface AuthContextType {
   accessToken: string;
   refreshToken: () => Promise<void>;
 }
 
-// Crear el contexto
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 interface AuthProviderProps {
@@ -38,9 +36,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           });
 
           const data = await response.json();
-          console.log("✅ App Token recibido:", data.access_token);
-          
-          // Guardar el token en AsyncStorage y en el estado
+
           await AsyncStorage.setItem('access_token', data.access_token);
           setAccessToken(data.access_token); 
       } catch (error) {
